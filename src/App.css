@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  text-align: justify;
 }
 
 .App-logo {
@@ -20,3 +20,7 @@
 .App-link {
   color: #09d3ac;
 }
+
+/* .App .User {
+  border-radius: 0px;
+} */
