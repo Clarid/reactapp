@@ -5,3 +5,20 @@
     box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .20);
     padding: 10px;
 }
+
+.User input:hover,
+.User input:focus {
+    outline: none;
+}
+
+.User input.red {
+    border: 1px solid red;
+}
+
+.User input.green {
+    border: 1px solid green;
+}
+
+.User input.italic {
+    font-style: italic;
+}
