@@ -24,3 +24,8 @@
 .App .User {
   border-radius: 0px;
 } */
+
+
+a.choosed {
+  color: green;
+}

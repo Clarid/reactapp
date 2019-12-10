@@ -1,6 +1,6 @@
 import React from 'react';
 import Hobby from './Hobby';
-import {ChangeTitleHandlerContext} from '../../../App';
+import {ChangeTitleHandlerContext} from '../UserList';
 
 export default (props) => {
     return (

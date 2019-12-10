@@ -9,7 +9,7 @@ class User extends React.Component {
         super(props);
         this.state = {};
         this.nameRef = React.createRef();
-        console.log('constructor');
+        // console.log('constructor');
     }
 
     // componentWillMount() {
@@ -21,7 +21,7 @@ class User extends React.Component {
             // this.nameRef.focus();
             this.nameRef.current.focus();
         }
-        console.log('componentDidMount');
+        // console.log('componentDidMount');
     }
 
     // componentWillReceiveProps(nextProps) {
@@ -30,11 +30,11 @@ class User extends React.Component {
     // }
 
     shouldComponentUpdate(nextProps, nextState) {
-        console.log('shouldComponentUpdate',
-        this.props, nextProps, this.state, nextState);
-        if (this.props.name.trim() === nextProps.name.trim()) {
-            return false;
-        }
+        // console.log('shouldComponentUpdate',
+        // this.props, nextProps, this.state, nextState);
+        // if (this.props.name.trim() === nextProps.name.trim()) {
+        //     return false;
+        // }
         return true;
     }
 
@@ -44,20 +44,27 @@ class User extends React.Component {
     // }
 
     componentDidUpdate() {
-        console.log('componentDidUpdate');
+        // console.log('componentDidUpdate');
     }
 
     componentWillUnmount() {
-        console.log('componentWillUnmount');
+        // console.log('componentWillUnmount');
+    }
+
+    detailInfoHandler = (username) => {
+        return () => {
+            console.log(this.props);
+            this.props.history.push(`/users/${username}`);
+        }
     }
 
     static getDerivedStateFromProps(nextProps, previousState) {
-        console.log('getDerivedStateFromProps');
+        // console.log('getDerivedStateFromProps');
         return previousState;
     }
 
     render() {
-        console.log('render');
+        // console.log('render');
         // if (Math.random() > 0.7) {
         //     throw new Error('Random Error');
         // }
@@ -74,7 +81,7 @@ class User extends React.Component {
 
         return (
             <MyFragment>
-                <div>{this.props.name}</div>
+                <div onClick={this.detailInfoHandler(this.props.name)}>{this.props.name}</div>
                 <div>Year: {this.props.age}</div>
                 <input 
                     className={inputClasses.join(' ')} 
