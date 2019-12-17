@@ -1,104 +1,59 @@
-import React from 'react'
+import React, {useRef, useEffect} from 'react'
 import classes from './User.css'
 import HobbiesList from './Hobbies/HobbiesList';
 import addClass from '../hoc/addClass';
 import MyFragment from '../hoc/MyFragment';
+import {connect} from 'react-redux'
+import { changeUserName, deleteUser } from '../../redux/actions/actions';
 
-class User extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-        this.nameRef = React.createRef();
-        // console.log('constructor');
-    }
+const User = (props) => {
+    const nameRef = useRef(null);
 
-    // componentWillMount() {
-    //     console.log('componentWillMount');
-    // }
+    useEffect(() => {
+        nameRef.current.focus();
+    }, []);
 
-    componentDidMount() {
-        if (this.props.index === 1) {
-            // this.nameRef.focus();
-            this.nameRef.current.focus();
-        }
-        // console.log('componentDidMount');
-    }
-
-    // componentWillReceiveProps(nextProps) {
-    //     console.log('componentWillReceiveProps',
-    //                 this.props, nextProps);
-    // }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        // console.log('shouldComponentUpdate',
-        // this.props, nextProps, this.state, nextState);
-        // if (this.props.name.trim() === nextProps.name.trim()) {
-        //     return false;
-        // }
-        return true;
-    }
-
-    // componentWillUpdate(nextProps, nextState) {
-    //     console.log('componentWillUpdate',
-    //     this.props, nextProps, this.state, nextState);
-    // }
-
-    componentDidUpdate() {
-        // console.log('componentDidUpdate');
-    }
-
-    componentWillUnmount() {
-        // console.log('componentWillUnmount');
-    }
-
-    detailInfoHandler = (username) => {
+    const detailInfoHandler = (username) => {
         return () => {
-            console.log(this.props);
-            this.props.history.push(`/users/${username}`);
+            props.history.push(`/users/${username}`);
         }
     }
 
-    static getDerivedStateFromProps(nextProps, previousState) {
-        // console.log('getDerivedStateFromProps');
-        return previousState;
+    
+    const inputClasses = [];
+    if (!props.name.length) {
+        inputClasses.push(classes.red);
+    } else {
+        inputClasses.push(classes.green);
     }
 
-    render() {
-        // console.log('render');
-        // if (Math.random() > 0.7) {
-        //     throw new Error('Random Error');
-        // }
-        const inputClasses = [];
-        if (!this.props.name.length) {
-            inputClasses.push(classes.red);
-        } else {
-            inputClasses.push(classes.green);
-        }
+    if (props.name.length > 4) {
+        inputClasses.push(classes.italic);
+    }
 
-        if (this.props.name.length > 4) {
-            inputClasses.push(classes.italic);
-        }
+    return (
+        <MyFragment>
+            <div /*onClick={this.detailInfoHandler(this.props.name)}*/>{props.name}</div>
+            <div>Year: {props.age}</div>
+            <input 
+                className={inputClasses.join(' ')} 
+                onChange={e => props.onChangeName(e.target.value, props.index)} 
+                type="text" 
+                value={props.name}
+                ref={nameRef}
+            />
+            <HobbiesList hobbies={props.hobbies}
+            />
+            <button onClick={() => props.deleteUser(props.index)}>Delete</button>
+        </MyFragment>
+    )
+}
 
-        return (
-            <MyFragment>
-                <div onClick={this.detailInfoHandler(this.props.name)}>{this.props.name}</div>
-                <div>Year: {this.props.age}</div>
-                <input 
-                    className={inputClasses.join(' ')} 
-                    onChange={this.props.onChangeName} 
-                    type="text" 
-                    value={this.props.name}
-                    // ref={nameRef => this.nameRef = nameRef}
-                    ref={this.nameRef}
-                />
-                <HobbiesList hobbies={this.props.hobbies}
-                    // onChangeTitle={this.props.onChangeTitle}
-                />
-                {/* <button onClick={this.props.onChangeTitle}>Change Title</button> */}
-                <button onClick={this.props.onDelete}>Delete</button>
-            </MyFragment>
-        )
+function mapDispatchToProps(dispatch) {
+    return {
+        onChangeName: (name, index) => dispatch(changeUserName(name, index)),
+        deleteUser: index => dispatch(deleteUser(index))
     }
 }
 
-export default addClass(User, classes.User)
+export default connect(null, mapDispatchToProps)(addClass(User, classes.User))
